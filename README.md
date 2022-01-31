@@ -2,4 +2,4 @@
 
 ## About the contents
 
-Application to convert multiple files to PDF
+Application to convert multiple "Word" files to PDF
