@@ -3,15 +3,21 @@ import win32com.client
 import glob
 import tqdm
 import time
+import re
 
 NOWPATH = os.getcwd() + "/"
-docs = glob.glob(NOWPATH+"*.doc")
+DOCFILES = [doc for doc in glob.glob(
+    NOWPATH+'/*') if re.search('/*\.(doc|docx)$', str(doc))]
 
 
-def convert():
-    for doc in tqdm.tqdm(docs):
+def main():
+
+    print("Converting WORD to PDF....\n")
+    
+    for doc in tqdm.tqdm(DOCFILES):
         wdFormatPDF = 17
-        outputFile = doc.rstrip(".doc")+".pdf"
+        #outputFile = doc.rstrip(".doc")+".pdf"
+        outputFile = doc+".pdf"
         file = open(outputFile, "w")
         file.close()
         word = win32com.client.Dispatch('Word.Application')
@@ -19,12 +25,13 @@ def convert():
         doc.SaveAs(outputFile, FileFormat=wdFormatPDF)
         doc.Close()
         word.Quit()
-
-
-if __name__ == "__main__":
-    
-    print("Converting WORD to PDF....\n")
-    convert()
+        
     print("\nCompleted!\n")
     time.sleep(2)
+
+if __name__ == "__main__":
+    main()
+
+
+
 
